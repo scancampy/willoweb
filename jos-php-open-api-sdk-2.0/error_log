@@ -1,0 +1,8 @@
+[03-Aug-2021 00:19:23 America/Chicago] PHP Fatal error:  Uncaught Error: Class 'JingdongSetListMapRequest' not found in /home2/user4app/public_html/jos-php-open-api-sdk-2.0/JdSdk.php:50
+Stack trace:
+#0 {main}
+  thrown in /home2/user4app/public_html/jos-php-open-api-sdk-2.0/JdSdk.php on line 50
+[03-Aug-2021 00:19:24 America/Chicago] PHP Fatal error:  Uncaught Error: Class 'JingdongSetListMapRequest' not found in /home2/user4app/public_html/jos-php-open-api-sdk-2.0/JdSdk.php:50
+Stack trace:
+#0 {main}
+  thrown in /home2/user4app/public_html/jos-php-open-api-sdk-2.0/JdSdk.php on line 50
