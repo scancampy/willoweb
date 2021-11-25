@@ -130,6 +130,15 @@
               </p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="<?php echo base_url('managevoucher'); ?>" class="nav-link <?php if($this->uri->segment(1) == 'managevoucher') { echo 'active'; } ?>">
+              <i class="fas fa-ticket-alt"></i>
+              <p>
+                Manage Voucher
+              </p>
+            </a>
+          </li>
         </ul>
 
       </nav>

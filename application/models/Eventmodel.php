@@ -185,5 +185,107 @@ class Eventmodel extends CI_Model {
 	public function removetenant($tenant_id, $event_id) {
 		$this->db->delete('events_tenant', array('tenant_id' => $tenant_id, 'event_id' => $event_id));
 	}
+
+	// REGISTER VOUCHER
+	public function registerVoucher($id, $event_id) {
+		// cek voucher sudah ada atau belum
+		$q= $this->db->get_where('events_voucher', array('voucher_id' => $id, 'event_id' => $event_id));
+		
+
+		if($q->num_rows() > 0) {
+			return false;
+		} else {			
+			$dataInsert = array('event_id' => $event_id, 'voucher_id' => $id, 'qty' => 0);
+			$this->db->insert('events_voucher', $dataInsert);
+			
+			return true;
+		}
+	}
+
+	public function getAllEventVoucher($id = '', $where = '', $limit = 0) {
+		if($id != '') {
+			$this->db->where('event_id', $id);
+		}
+
+		if($where != '') {
+			$this->db->where($where);
+		}
+
+		if($limit > 0) {
+			$this->db->limit($limit);
+		}
+
+		$this->db->join('voucher', 'voucher.id = events_voucher.voucher_id');
+		$this->db->where('status', 'active');
+		$this->db->order_by('id','desc');
+		$this->db->select('events_voucher.*, voucher.voucher_image, voucher.nama, voucher.highlight');
+		$q = $this->db->get('events_voucher');
+
+		return $q->result();
+	}
+
+	public function generateVoucher($voucher_id, $event_id, $qty) {
+		$this->load->helper('string');
+		for($i =0; $i < $qty; $i++) {
+			// generate code			
+			do {
+				$code = strtoupper(random_string('alnum', 10));
+				$cek = $this->db->get_where('voucher_pool', array('code' => $code));
+			} while($cek->num_rows() > 0);
+
+			$dataInsert = array('event_id' => $event_id, 'voucher_id' => $voucher_id, 'code' => $code, 'status' => 'active', 'available' => 1);
+			$this->db->insert('voucher_pool', $dataInsert);
+		}
+
+		// update qty
+		$q= $this->db->get_where('voucher_pool', array('event_id' => $event_id, 'voucher_id' => $voucher_id, 'status' => 'active'));
+		$newqty = $q->num_rows();
+
+		$this->db->where(array('event_id' => $event_id, 'voucher_id' => $voucher_id));
+		$this->db->update('events_voucher', array('qty' => $newqty));
+	}
+
+	public function removevoucher($voucher_id, $event_id) {
+		$this->db->delete('voucher_pool', array('voucher_id' => $voucher_id, 'event_id' => $event_id));
+		$this->db->delete('events_voucher', array('voucher_id' => $voucher_id, 'event_id' => $event_id));
+	}
+
+	public function removevouchercode($code, $event_id) {
+		$q = $this->db->get_where('voucher_pool', array('code' => $code));
+		$row = $q->row();
+		$voucher_id = $row->voucher_id;
+		$this->db->delete('voucher_pool', array('code' => $code, 'event_id' => $event_id));
+
+		// update qty
+		$q= $this->db->get_where('voucher_pool', array('event_id' => $event_id, 'voucher_id' => $voucher_id, 'status' => 'active'));
+		$newqty = $q->num_rows();
+
+		$this->db->where(array('event_id' => $event_id, 'voucher_id' => $voucher_id));
+		$this->db->update('events_voucher', array('qty' => $newqty));
+
+		return $voucher_id;
+	}
+
+	public function getAllVoucherPool($event_id = '', $voucher_id, $where = '', $limit = 0) {
+		if($event_id != '') {
+			$this->db->where('event_id', $event_id);
+		}
+
+		if($voucher_id != '' && $voucher_id != 'all') {
+			$this->db->where('voucher_id', $voucher_id);
+		}
+
+		if($where != '') {
+			$this->db->where($where);
+		}
+
+		if($limit > 0) {
+			$this->db->limit($limit);
+		}
+		
+		$q = $this->db->get('voucher_pool');
+
+		return $q->result();
+	}
 }
 ?>
