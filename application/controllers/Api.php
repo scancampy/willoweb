@@ -54,6 +54,7 @@ class Api extends CI_Controller {
             
                     if ( ! $this->email->send())
                     {
+                        //echo json_encode(array('result' => 'false', 'message'=> 'error'.$this->email->print_debugger()));
                         echo json_encode(array('result' => 'false', 'message'=> 'error'));
                     } else {
                         echo json_encode(array('result' => 'true', 'message'=> 'success'));
@@ -65,10 +66,7 @@ class Api extends CI_Controller {
 			}
 		} else {
 			echo json_encode(array('result' => 'false', 'message'=> 'error'));
-		}	
-		
-	   
-	    
+		}
 	   
 	}
 

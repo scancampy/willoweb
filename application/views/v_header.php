@@ -8,21 +8,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="<?php echo base_url('img/wil_ico.png'); ?>" rel="icon" />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="<? echo base_url('plugins/fontawesome-free/css/all.min.css'); ?>">
+  <link rel="stylesheet" href="<?php echo base_url('plugins/fontawesome-free/css/all.min.css'); ?>">
  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="<? echo base_url('plugins/overlayScrollbars/css/OverlayScrollbars.min.css'); ?>">
-  <link rel="stylesheet" href="<? echo base_url('plugins/bootstrap-datepicker.min.css'); ?>">
+  <link rel="stylesheet" href="<?php  echo base_url('plugins/overlayScrollbars/css/OverlayScrollbars.min.css'); ?>">
+  <link rel="stylesheet" href="<?php  echo base_url('plugins/bootstrap-datepicker.min.css'); ?>">
    <?php /* <link rel="stylesheet" href="<? echo base_url('plugins/summernote/summernote-bs4.css'); ?>"> */ ?>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<? echo base_url('css/adminlte.min.css'); ?>">
+  <link rel="stylesheet" href="<?php  echo base_url('css/adminlte.min.css'); ?>">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   
   <style>
       @font-face {
     font-family: 'quicksandbold';
-    src: url('<?php echo base_url('fonts/quicksand-bold-webfont.woff2'); ?>') format('woff2'),
+    src: url('<?php  echo base_url('fonts/quicksand-bold-webfont.woff2'); ?>') format('woff2'),
          url('<?php echo base_url('fonts/quicksand-bold-webfont.woff'); ?>') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -37,6 +37,10 @@
     font-style: normal;
 
 }
+
+    div#example2_filter { 
+      text-align: right !important;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

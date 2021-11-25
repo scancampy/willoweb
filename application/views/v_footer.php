@@ -26,6 +26,19 @@
 <!-- Summernote -->
 <?php /*<script src="<?php echo base_url('plugins/summernote/summernote-bs4.min.js'); ?>"></script> */ ?>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="<?php echo base_url('plugins/moment/moment.min.js'); ?>"></script>
+<script src="<?php echo base_url('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'); ?>"></script>
+
+<!-- SweetAlert2 -->
+<script src="<?php echo base_url('plugins/sweetalert2/sweetalert2.min.js'); ?>"></script>
+
+<!-- jquery-validation -->
+<script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.min.js'); ?>"></script>
+<script src="<?php echo base_url('plugins/jquery-validation/additional-methods.min.js'); ?>"></script>
+
+<!-- bs-custom-file-input -->
+<script src="<?php echo base_url('plugins/bs-custom-file-input/bs-custom-file-input.min.js'); ?>"></script>
 
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('js/adminlte.min.js'); ?>"></script>
