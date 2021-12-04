@@ -110,6 +110,8 @@ class Events extends CI_Controller {
 				if(json['data'][0].voucher_image != '') {
 					$('#current_voucher_img').attr('src', '".base_url('voucher/')."' + json['data'][0].voucher_image);
 					$('#current_voucher_div').show();
+				} else {
+					$('#current_voucher_div').hide();
 				}		
 			});
 		});
@@ -402,6 +404,8 @@ class Events extends CI_Controller {
 		$data = array();
 
 		if($this->input->post('btnsubmit')) {
+			$this->load->helper('url');			
+
 			$isaktif = $this->input->post('is_aktif');
 			if($isaktif == '') { $isaktif = 0; }
 			$dataInsert = array(
@@ -413,6 +417,28 @@ class Events extends CI_Controller {
 							'is_aktif' => $isaktif,
 							'max_voucher_harian' => $this->input->post('max_voucher_harian')
 						);
+
+			if ($_FILES['banner_img']['size'] != 0)
+			{
+				// upload promo
+				$configlogo['upload_path']          = './events/';
+                $configlogo['allowed_types']        = 'gif|jpg|png|bmp|jpeg';
+                $configlogo['max_size']             = 1000000;
+                $configlogo['overwrite']			= TRUE;
+                $configlogo['file_name']			= 'event_'.url_title($this->input->post('nama'), '_', true).'_'.date('Ymdhis').'.jpg';
+
+                $this->load->library('upload', $configlogo);
+                $ifupload = true;
+
+                if ( ! $this->upload->do_upload('banner_img')) {
+                	$this->session->set_flashdata('notif', 'banner_error');	
+                	$this->session->set_flashdata('notif_msg',$this->upload->display_errors());	
+
+                	$errorcheck = true;
+                } else {
+                	$dataInsert['banner_img'] = $configlogo['file_name'];
+                }
+			}
 			
 
 			if($this->input->post('hididperiode')) {
@@ -428,6 +454,10 @@ class Events extends CI_Controller {
 
 		if($this->session->flashdata('notif')) {
 			$data['notif'] = $this->session->flashdata('notif');
+		}
+
+		if($this->session->flashdata('notif_msg')) {
+			$data['notif_msg'] = $this->session->flashdata('notif_msg');
 		}
 
 		$data['events'] = $this->eventmodel->getAllEvent();
@@ -531,6 +561,8 @@ class Events extends CI_Controller {
 			today = yyyy+'-'+mm+'-'+dd;
 			$('#tanggal_mulai').val(today);
 			$('#tanggal_selesai').val(today);
+
+			$('#current_banner_div').hide();
   		});
   		";
 
@@ -556,6 +588,13 @@ class Events extends CI_Controller {
 				} else {
 					$('#is_aktif').prop('checked', false);
 				}				
+
+				if(json['data'][0].banner_img != '') {
+					$('#current_banner_img').attr('src', '".base_url('events/')."' + json['data'][0].banner_img);
+					$('#current_banner_div').show();
+				} else {
+					$('#current_banner_div').hide();
+				}	
 			});
 		});
 		";

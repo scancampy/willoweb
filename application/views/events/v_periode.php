@@ -55,6 +55,16 @@
                 </div>
               </div>
             <?php } ?>
+
+            <?php if(@$notif =='banner_error') { ?>
+          <div class="col-12">
+           <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="fa fa-check"></i> Upload Banner Error!</h5>
+                  <p><?php echo $notif_msg; ?></p>
+                </div>
+              </div>
+            <?php }  ?>
                 <table>
                   <table id="example2" class="table table-bordered table-hover">
                       <thead>
@@ -111,7 +121,7 @@
 
 <div class="modal fade" id="modal-lg">
   <div class="modal-dialog modal-lg">
-    <form action="<?php echo base_url('events/periode'); ?>" method="post" id="formtambahperiode">
+    <form action="<?php echo base_url('events/periode'); ?>" method="post" id="formtambahperiode" enctype='multipart/form-data'>
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id='title_modal'>Tambah Event</h4>
@@ -139,8 +149,19 @@
               </div>
 
               <div class="form-group">
-                <label for="max_voucher_harian">Max. Voucher Harian</label>
+                <label for="max_voucher_harian">Kuota Scan Harian</label>
                 <input type="number" min="1" value="1" required name="max_voucher_harian" class="form-control" id="max_voucher_harian" placeholder="">
+              </div>
+
+              <div class="form-group" id="current_banner_div">
+                <label>Banner Event Sekarang</label>
+                <img src="" style="width:100px; height: auto;" class="form-control" id="current_banner_img" />
+              </div>
+
+              <div class="form-group">
+                <label>Upload Banner</label>
+                <input type="file" class="form-control" id="banner_img" name="banner_img" accept="image/*">
+                <span class="text-muted">Format: .jpg (500x500)</span>
               </div>
 
               <div class="form-group " >
