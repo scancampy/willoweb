@@ -283,9 +283,29 @@ class Eventmodel extends CI_Model {
 			$this->db->limit($limit);
 		}
 		
+		$this->db->join('voucher', 'voucher.id = voucher_pool.voucher_id');
+		$this->db->select('voucher_pool.*, voucher.nama');
 		$q = $this->db->get('voucher_pool');
 
 		return $q->result();
+	}
+
+	public function getVoucherClaimedDaily($event_id) {
+		$result = array();
+		$r = $this->db->get_where('events', array('id' => $event_id));
+		$event = $r->row();
+
+		$datediff = strtotime($event->tanggal_selesai) - strtotime($event->tanggal_mulai);
+
+		
+
+        for($i=1; $i<= round($datediff / (60 * 60 * 24)); $i++) {
+        	$temp =  strftime("%Y-%m-%d",strtotime("+".$i." day", strtotime($event->tanggal_mulai)));
+        	$cek = $this->db->get_where('voucher_pool', array('event_id' => $event_id, 'digital_claimed_date LIKE ' => "%".$temp."%" ));
+        	$result[$i] = $cek->num_rows();
+        }
+
+        return $result;
 	}
 }
 ?>

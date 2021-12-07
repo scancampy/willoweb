@@ -60,11 +60,50 @@
                   </div>
                 </div>
                 <?php } ?>
+
               </div>
             </div>
 
 
           </div>
+
+          <?php if(isset($event) && count($event) >0) { ?>
+                 
+           <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <h5>Stats</h5>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th style="width:30%;">Tanggal</th>
+                          <th>Kuota</th>
+                        </tr>
+                        <?php
+                          $datediff = strtotime($event[0]->tanggal_selesai) - strtotime($event[0]->tanggal_mulai);
+
+                          for($i=1; $i<= round($datediff / (60 * 60 * 24)); $i++) { ?> 
+                            <tr>
+                              <td><?php echo strftime("%A, %d %B %Y", strtotime("+".$i." day", strtotime($event[0]->tanggal_mulai))); ?></td>
+                              <td>
+                              <div class="col-sm-12">
+                              <input class="range_2" type="text" data-min="0" data-max="<?php echo $event[0]->max_voucher_harian; ?>" data-from="<?php echo $daily[$i]; ?>" >
+                            </div>
+
+                              </td>
+                            </tr>
+                          <?php }
+                        ?>
+                      </tbody>
+                    </table>
+
+                 
+              </div>
+            </div>
+          </div>
+          <?php } ?>
+
           <?php if(isset($event) && count($event) >0) { ?>
           <div class="col-md-12">
             <div class="card">
@@ -95,6 +134,7 @@
                       <thead>
                       <tr>
                         <th>Kode Voucher</th>
+                        <th>Voucher</th>
                         <th>Status</th>
                         <th>Diklaim Oleh</th>
                         <th>Tanggal Klaim</th>
@@ -103,12 +143,11 @@
                       </tr>
                       </thead>
                       <tbody>
-                        <?php if(count($voucher_pool) == 0) { ?>
-                          <tr><td colspan="6" class="text-center text-muted">Belum ada kode voucher yang digenerate.</td></tr>
-                        <?php } 
+                        <?php  
                         foreach($voucher_pool as $key => $voucher) { ?>
                           <tr>
                             <td><?php echo $voucher->code; ?></td>
+                            <td><?php echo $voucher->nama; ?></td>
                             <td><?php if($voucher->available == 1) { echo '<span class="badge badge-primary">Available</span>'; } else { echo '<span class="badge badge-secondary">Claimed</span>';  } ?></td>
                             <td>-</td>
                             <td>-</td>
@@ -133,6 +172,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+</div>
 
 <div class="modal fade" id="modal-lg">
   <div class="modal-dialog modal-lg">

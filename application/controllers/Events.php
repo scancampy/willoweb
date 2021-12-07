@@ -18,7 +18,8 @@ class Events extends CI_Controller {
 			$dataInsert = array(
 							'nama' => $this->input->post('nama'),
 							'deskripsi' => $this->input->post('deskripsi'),
-							'highlight' => $this->input->post('highlight')
+							'highlight' => $this->input->post('highlight'),
+							'kuota_harian' => $this->input->post('kuota_harian')
 						);
 
 			if ($_FILES['voucher_image']['size'] != 0)
@@ -85,6 +86,7 @@ class Events extends CI_Controller {
   			$('#nama').val('');
   			$('#hididvoucher').val('');
   			$('#deskripsi').val('');
+  			$('#kuota_harian').val('');
   			$('#highlight').val('');
   			$('#current_voucher_div').hide();
   		});
@@ -104,6 +106,7 @@ class Events extends CI_Controller {
 				$('#nama').val(json['data'][0].nama);
 				$('#deskripsi').val(json['data'][0].deskripsi);
 				$('#highlight').val(json['data'][0].highlight);
+				$('#kuota_harian').val(json['data'][0].kuota_harian);
 
 				$('#current_voucher_div').hide();
 
@@ -129,6 +132,9 @@ class Events extends CI_Controller {
 		      },
 		      highlight: {
 		        required: true
+		      },
+		      kuota_harian: {
+		        required: true
 		      }
 		    },
 		    messages: {
@@ -139,6 +145,9 @@ class Events extends CI_Controller {
 		        required: 'Harus diisi'
 		      },
 		      highlight: {
+		        required: 'Harus diisi'
+		      },
+		      kuota_harian: {
 		        required: 'Harus diisi'
 		      }
 		    },
@@ -415,6 +424,7 @@ class Events extends CI_Controller {
 							'tanggal_mulai' => $this->input->post('tanggal_mulai'),
 							'tanggal_selesai' => $this->input->post('tanggal_selesai'),
 							'is_aktif' => $isaktif,
+							'probabilitas' => $this->input->post('probabilitas'),
 							'max_voucher_harian' => $this->input->post('max_voucher_harian')
 						);
 
@@ -544,6 +554,7 @@ class Events extends CI_Controller {
   			$('#deskripsi').val('');
 			$('#is_aktif').prop('checked', false);
 			$('#max_voucher_harian').val(1);
+			$('#probabilitas').val('5');
 			var today = new Date();
 			var dd = today.getDate();
 
@@ -583,6 +594,8 @@ class Events extends CI_Controller {
 				$('#tanggal_mulai').val(json['data'][0].tanggal_mulai);
 				$('#tanggal_selesai').val(json['data'][0].tanggal_selesai);
 				$('#max_voucher_harian').val(json['data'][0].max_voucher_harian);
+				$('#probabilitas').val(json['data'][0].probabilitas);
+				
 				if(json['data'][0].is_aktif == 1) {
 					$('#is_aktif').prop('checked', true);
 				} else {

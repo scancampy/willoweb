@@ -141,6 +141,11 @@
                 <input type="text" required  name="nama" class="form-control" id="nama" placeholder="">
               </div>
 
+               <div class="form-group">
+                <label for="kuota_harian">Kuota Voucher Harian</label>
+                <input type="number" min="1" required  name="kuota_harian" class="form-control" id="kuota_harian" placeholder="">
+              </div>
+
               <div class="form-group">
                 <label>Deskripsi</label>
                 <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" placeholder=""></textarea>

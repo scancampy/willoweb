@@ -148,10 +148,49 @@
                 <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" placeholder=""></textarea>
               </div>
 
-              <div class="form-group">
-                <label for="max_voucher_harian">Kuota Scan Harian</label>
-                <input type="number" min="1" value="1" required name="max_voucher_harian" class="form-control" id="max_voucher_harian" placeholder="">
+              <div class="row">
+                <div class="col-6">
+                  <label for="probabilitas">Probabilitas Voucher</label>
+                    
+                  <div class="input-group">
+                    <input type="number" required name="probabilitas" class="form-control" id="probabilitas" placeholder="">
+                    
+                       <div class="input-group-append">
+    <span class="input-group-text" id="basic-addon2">%</span>
+  </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="max_voucher_harian">Kuota Scan Harian</label>
+                    <input type="number" min="1" value="1" required name="max_voucher_harian" class="form-control" id="max_voucher_harian" placeholder="">
+                  </div>
+                </div>
               </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group " >
+                      <label>Tanggal Mulai</label>
+                      <input type="date" class="form-control" name="tanggal_mulai" value="<?php echo date('Y-m-d'); ?>"  id="tanggal_mulai" >
+                      <div class="input-group-addon">
+                          <span class="glyphicon glyphicon-th"></span>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group " >
+                      <label>Tanggal Selesai</label>
+                      <input type="date" class="form-control" name="tanggal_selesai" value="<?php echo date('Y-m-d'); ?>"  id="tanggal_selesai" >
+                      <div class="input-group-addon">
+                          <span class="glyphicon glyphicon-th"></span>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+
+              
 
               <div class="form-group" id="current_banner_div">
                 <label>Banner Event Sekarang</label>
@@ -164,21 +203,8 @@
                 <span class="text-muted">Format: .jpg (500x500)</span>
               </div>
 
-              <div class="form-group " >
-                  <label>Tanggal Mulai</label>
-                  <input type="date" class="form-control" name="tanggal_mulai" value="<?php echo date('Y-m-d'); ?>"  id="tanggal_mulai" >
-                  <div class="input-group-addon">
-                      <span class="glyphicon glyphicon-th"></span>
-                  </div>
-              </div>
+              
 
-              <div class="form-group " >
-                  <label>Tanggal Selesai</label>
-                  <input type="date" class="form-control" name="tanggal_selesai" value="<?php echo date('Y-m-d'); ?>"  id="tanggal_selesai" >
-                  <div class="input-group-addon">
-                      <span class="glyphicon glyphicon-th"></span>
-                  </div>
-              </div>
 
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="is_aktif" name="is_aktif" value="1">

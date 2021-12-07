@@ -19,6 +19,9 @@ class Managevoucher extends CI_Controller {
 		if($this->input->get('eventid')) {			
 			$data['events_voucher'] = $this->eventmodel->getAllEventVoucher($this->input->get('eventid'));
 			$data['event'] = $this->eventmodel->getAllEvent($this->input->get('eventid'));
+			if(count($data['event']) > 0) {
+				$data['daily'] = $this->eventmodel->getVoucherClaimedDaily($this->input->get('eventid'));
+			}
 
 			// READ VOUCHER
 			if($this->input->get('voucher_id')) {
@@ -86,6 +89,11 @@ class Managevoucher extends CI_Controller {
       \"info\": true,
       \"autoWidth\": false,
     });
+  		";
+
+  		// SLIDER
+  		$data['js'] .= "
+  		$('.range_2').ionRangeSlider()
   		";
 
 	

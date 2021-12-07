@@ -39,6 +39,8 @@
 
 <!-- bs-custom-file-input -->
 <script src="<?php echo base_url('plugins/bs-custom-file-input/bs-custom-file-input.min.js'); ?>"></script>
+<!-- Ion Slider -->
+<script src="<?php echo base_url('plugins/ion-rangeslider/js/ion.rangeSlider.min.js'); ?>"></script>
 
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('js/adminlte.min.js'); ?>"></script>
