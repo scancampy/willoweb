@@ -86,9 +86,40 @@
                               'email_customer' => $email,
                               'salt' => $salt,
                               'password' => $password);
-                $this->db->where('no_hp', $hp);
+                $this->db->where('kode_customer', $hq->kode_customer);
                 $this->db->update('mst_customer', $data);
                 return json_encode(array('result' => 'true', 'message' => 'user_activated'));   
+            } else if($hq->status_customer == 'active') {
+                return json_encode(array('result' => 'false', 'message' => 'user_active'));    
+            } else if($hq->status_customer == 'deleted') {
+                return json_encode(array('result' => 'false', 'message' => 'not_found'));    
+            }  else {
+                return json_encode(array('result' => 'false', 'message' => 'banned'));    
+            }
+        } else {
+            return json_encode(array('result' => 'false', 'message' => 'not_found'));
+        }
+    }
+
+    function activated2($hp, $email, $pass) {
+        $this->load->helper('string');
+        $this->load->helper('security');
+      //  return json_encode(array('result' => 'false', 'message' => 'test'));
+
+        $q = $this->db->get_where('mst_customer', array('no_hp' => $hp));
+        if($q->num_rows() > 0) {
+            $hq = $q->row();
+            if($hq->status_customer == 'inactive') {
+                $salt = random_string('alnum', 10);
+                $password = do_hash(do_hash($pass.$salt,'md5'), 'md5');
+                $data = array('status_customer' => 'active', 
+                              'email_customer' => $email,
+                              'salt' => $salt,
+                              'password' => $password);
+                $this->db->where('kode_customer', $hq->kode_customer);
+                $this->db->update('mst_customer', $data);
+
+                return json_encode(array('result' => 'true', 'message' => 'user_activated', 'db' => $this->db->last_query()));   
             } else if($hq->status_customer == 'active') {
                 return json_encode(array('result' => 'false', 'message' => 'user_active'));    
             } else if($hq->status_customer == 'deleted') {

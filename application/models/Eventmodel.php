@@ -218,7 +218,7 @@ class Eventmodel extends CI_Model {
 		$this->db->join('voucher', 'voucher.id = events_voucher.voucher_id');
 		$this->db->where('status', 'active');
 		$this->db->order_by('id','desc');
-		$this->db->select('events_voucher.*, voucher.voucher_image, voucher.nama, voucher.highlight');
+		$this->db->select('events_voucher.*, voucher.voucher_image, voucher.nama, voucher.highlight, voucher.kuota_harian');
 		$q = $this->db->get('events_voucher');
 
 		return $q->result();
@@ -284,7 +284,8 @@ class Eventmodel extends CI_Model {
 		}
 		
 		$this->db->join('voucher', 'voucher.id = voucher_pool.voucher_id');
-		$this->db->select('voucher_pool.*, voucher.nama');
+		$this->db->join('mst_customer', 'mst_customer.kode_customer = voucher_pool.digital_claimed_by_customer_id', 'left');
+		$this->db->select('voucher_pool.*, voucher.nama, mst_customer.nama_customer');
 		$q = $this->db->get('voucher_pool');
 
 		return $q->result();
@@ -307,5 +308,15 @@ class Eventmodel extends CI_Model {
 
         return $result;
 	}
+
+	public function getVoucherClaimedPerDaily($event_id, $voucher_id, $date) {
+		$q = $this->db->get_where('voucher_pool', array('event_id' => $event_id, 'voucher_id' => $voucher_id, 'digital_claimed_date LIKE ' => "%".$date."%" ));
+		//echo '<br/>as'.$date.' '.$voucher_id.' '.$event_id;
+		//echo $this->db->last_query();
+
+		return $q->num_rows();
+	}
+
+
 }
 ?>

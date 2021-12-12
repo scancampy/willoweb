@@ -302,6 +302,11 @@ class Api extends CI_Controller {
 		}
 	}
 
+	public function activated2() {
+		$res = $this->customermodel->activated2('085850745583', 'andrenoto@yahoo.co.id', 'password' );
+		echo $res;
+	}
+
 	public function index()
 	{
 		$this->load->view('welcome_message');

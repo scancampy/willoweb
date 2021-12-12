@@ -67,58 +67,49 @@
 
           </div>
 
+         
+
           <?php if(isset($event) && count($event) >0) { ?>
-                 
-           <div class="col-md-12">
-            <div class="card">
+            <div class="col-md-12">
+          <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link <?php if($this->input->get('tab') == 'voucher' || empty($this->input->get('tab'))) { echo 'active'; } ?>" href="#voucher" data-toggle="tab">Voucher</a></li>
+                  <li class="nav-item"><a class="nav-link <?php if($this->input->get('tab') == 'stats') { echo 'active'; } ?>" href="#stats" data-toggle="tab">Stats</a></li>
+                </ul>
+              </div><!-- /.card-header -->
               <div class="card-body">
-                <h5>Stats</h5>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <tbody>
-                        <tr>
-                          <th style="width:30%;">Tanggal</th>
-                          <th>Kuota</th>
-                        </tr>
-                        <?php
-                          $datediff = strtotime($event[0]->tanggal_selesai) - strtotime($event[0]->tanggal_mulai);
+                <div class="tab-content">
+                  <div class="tab-pane <?php if($this->input->get('tab') == 'voucher' || empty($this->input->get('tab'))) { echo 'active'; } ?>" id="voucher">
 
-                          for($i=1; $i<= round($datediff / (60 * 60 * 24)); $i++) { ?> 
-                            <tr>
-                              <td><?php echo strftime("%A, %d %B %Y", strtotime("+".$i." day", strtotime($event[0]->tanggal_mulai))); ?></td>
-                              <td>
-                              <div class="col-sm-12">
-                              <input class="range_2" type="text" data-min="0" data-max="<?php echo $event[0]->max_voucher_harian; ?>" data-from="<?php echo $daily[$i]; ?>" >
-                            </div>
 
-                              </td>
-                            </tr>
-                          <?php }
-                        ?>
-                      </tbody>
-                    </table>
-
-                 
-              </div>
-            </div>
-          </div>
-          <?php } ?>
-
-          <?php if(isset($event) && count($event) >0) { ?>
           <div class="col-md-12">
             <div class="card">
               <div class="card-body">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="qty">Tampilkan Kode Voucher</label>
-                    <select name="voucher_id" id="voucher_id" class="form-control">
-                      <option value="all">Semua Voucher</option>
-                      <?php foreach($events_voucher as $key => $voucher) { ?>
-                        <option <?php if($this->input->get('voucher_id') == $voucher->voucher_id) { echo 'selected'; } ?> value="<?php echo $voucher->voucher_id; ?>"><?php echo $voucher->nama; ?></option>
-                      <?php } ?>
-                    </select>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="qty">Tampilkan Kode Voucher</label>
+                      <select name="voucher_id" id="voucher_id" class="form-control">
+                        <option value="all">Semua Voucher</option>
+                        <?php foreach($events_voucher as $key => $voucher) { ?>
+                          <option <?php if($this->input->get('voucher_id') == $voucher->voucher_id) { echo 'selected'; } ?> value="<?php echo $voucher->voucher_id; ?>"><?php echo $voucher->nama; ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="qty">Tampilkan Voucher</label>
+                      <select name="voucher_claimed" id="voucher_claimed" class="form-control">
+                        <option value="all">Semua Voucher</option>
+                        <option value="digital_claimed" <?php if($this->input->get('voucher_claimed') == 'digital_claimed') { echo 'selected'; } ?>>Voucher Diklaim Digital</option>
+                        <option value="physical_traded" <?php if($this->input->get('voucher_claimed') == 'physical_traded') { echo 'selected'; } ?>>Voucher Ditukar Fisik</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
+                
 
                 <div class="col-md-12">
                   <?php if(@$notif =='remove_voucher_success') { ?>
@@ -148,10 +139,10 @@
                           <tr>
                             <td><?php echo $voucher->code; ?></td>
                             <td><?php echo $voucher->nama; ?></td>
-                            <td><?php if($voucher->available == 1) { echo '<span class="badge badge-primary">Available</span>'; } else { echo '<span class="badge badge-secondary">Claimed</span>';  } ?></td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <td><?php if($voucher->digital_claimed_by_customer_id == null) { echo '<span class="badge badge-primary">Available</span>'; } else { echo '<span class="badge badge-secondary">Claimed</span>';  } ?></td>
+                            <td><?php if($voucher->digital_claimed_by_customer_id != null) { echo $voucher->nama_customer; } else { echo '-'; } ?></td>
+                            <td><?php if($voucher->digital_claimed_date != null) { echo strftime('%d %b %Y', strtotime($voucher->digital_claimed_date));  } else { echo '-'; } ?></td>
+                            <td><?php if($voucher->physical_claimed_date != null) { echo strftime('%d %b %Y', strtotime($voucher->physical_claimed_date));  } else { echo '-'; } ?></td>
                             <td><a href="<?php echo base_url('managevoucher/removevoucher/'.$voucher->code.'/'.$voucher->event_id); ?>" class="btn btn-danger btn-sm btntrash" onclick="return confirm('Yakin hapus?');"><i class="far fa-trash-alt nav-icon"></i> REMOVE</a></td>
                           </tr>
                         <?php } ?>
@@ -161,6 +152,37 @@
               </div>
             </div>
           </div>
+
+                  </div>
+                  <div class="tab-pane <?php if($this->input->get('tab') == 'stats') { echo 'active'; } ?>" id="stats">
+                    <div class="col-md-12">
+                      <?php
+                          $datediff = strtotime($event[0]->tanggal_selesai) - strtotime($event[0]->tanggal_mulai);
+                        ?>
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <th style="width:30%;"></th>
+                            <?php  for($i=0; $i<= round($datediff / (60 * 60 * 24)); $i++) { ?> 
+                            <th class="text-center"><?php echo strftime("%d %b %Y", strtotime("+".$i." day", strtotime($event[0]->tanggal_mulai))); ?></th>
+                          <?php } ?>
+                          </tr>
+                          <?php foreach($events_voucher as $key => $value){ ?>
+                            <tr>
+                              <td><?php echo $value->nama; ?></td>
+                                <?php  for($i=0; $i<= round($datediff / (60 * 60 * 24)); $i++) { ?> 
+                            <th class="text-center"><?php echo $claimed[$value->voucher_id][$i].'/'.$value->kuota_harian; ?></th>
+                          <?php } ?>
+                            </tr>
+                          <?php }?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
         <?php } ?>
         </div>
        

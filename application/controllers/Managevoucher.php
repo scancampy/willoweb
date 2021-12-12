@@ -23,12 +23,32 @@ class Managevoucher extends CI_Controller {
 				$data['daily'] = $this->eventmodel->getVoucherClaimedDaily($this->input->get('eventid'));
 			}
 
+			 $datediff = strtotime($data['event'][0]->tanggal_selesai) - strtotime($data['event'][0]->tanggal_mulai);
+			 $claimed = array();
+			 foreach($data['events_voucher'] as $key => $value) {
+				 for($i=0; $i<= round($datediff / (60 * 60 * 24)); $i++) {
+				 	$claimed[$value->voucher_id][$i] =  $this->eventmodel->getVoucherClaimedPerDaily($this->input->get('eventid'), $value->voucher_id, strftime("%Y-%m-%d", strtotime("+".$i." day", strtotime($data['event'][0]->tanggal_mulai))) );
+				 }
+			}
+
+			$data['claimed'] = $claimed;
+
+
+			$where ='';
+			if($this->input->get('voucher_claimed')) {
+				if($this->input->get('voucher_claimed') == 'digital_claimed') {
+					$where = ' voucher_pool.digital_claimed_by_customer_id IS NOT NULL ';
+				} else if($this->input->get('voucher_claimed') == 'physical_traded') {
+					$where = ' voucher_pool.physical_claimed_date IS NOT NULL ';
+				}
+			}
+
 			// READ VOUCHER
 			if($this->input->get('voucher_id')) {
-				$data['voucher_pool'] = $this->eventmodel->getAllVoucherPool($this->input->get('eventid'), $this->input->get('voucher_id'));
+				$data['voucher_pool'] = $this->eventmodel->getAllVoucherPool($this->input->get('eventid'), $this->input->get('voucher_id'), $where);
 
 			} else {
-				$data['voucher_pool'] = $this->eventmodel->getAllVoucherPool($this->input->get('eventid'), 'all');
+				$data['voucher_pool'] = $this->eventmodel->getAllVoucherPool($this->input->get('eventid'), 'all', $where);
 			}
 		}
 
@@ -75,6 +95,10 @@ class Managevoucher extends CI_Controller {
 			});
 
 			$('#voucher_id').on('change', function() {
+				$('#formpilihevent').submit();
+			});
+
+			$('#voucher_claimed').on('change', function() {
 				$('#formpilihevent').submit();
 			});
 		";
