@@ -21,6 +21,8 @@ class Api extends CI_Controller {
  		}
 		
 	}
+
+	
 	
 	public function forgotpass() {
 	     header("Access-Control-Allow-Origin: *");
@@ -37,9 +39,9 @@ class Api extends CI_Controller {
     			    $this->load->library('email');
     	    
             	    $config['protocol'] = 'smtp';
-                    $config['smtp_host'] = 'gator4061.hostgator.com';
-                    $config['smtp_user'] = 'apps@willowbabyshop.com';
-                    $config['smtp_pass'] = 'r)tA3+@6YOT~';
+                    $config['smtp_host'] = 'gator4164.hostgator.com';
+                    $config['smtp_user'] = 'donotreply@willowapps.net';
+                    $config['smtp_pass'] = '*t6SS)PxX7zD';
                     $config['smtp_port'] = '465';
                     $config['smtp_crypto'] = 'ssl';
                     
@@ -51,7 +53,8 @@ class Api extends CI_Controller {
                     
                     $this->email->subject('Password Have Been Changed - Willow Baby & Kids Apps');
                     $this->email->message("Dear ".ucwords($cust[0]->nama_customer).", \r\n Please be advised that your password have been changed to ".$pass." \r\n\r\n Use this new password to login into Willow Baby & Kids Apps. You should change your password immediately after login. \r\n\r\n Regards,\r\n Willow Baby & Kids Admin.");
-            
+            	
+
                     if ( ! $this->email->send())
                     {
                         //echo json_encode(array('result' => 'false', 'message'=> 'error'.$this->email->print_debugger()));
