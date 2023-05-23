@@ -272,7 +272,7 @@ class Api extends CI_Controller {
 			if($this->customermodel->check_token($this->input->post('token'), $this->input->post('kode_customer'))) {
 				
 				//echo json_encode(array('result' => $this->input->post('password')));
-				echo $this->customermodel->change_pass2(
+				echo $this->customermodel->change_pass(
 					$this->input->post('kode_customer'), 
 					$this->input->post('oldpassword'), 
 					$this->input->post('password'));

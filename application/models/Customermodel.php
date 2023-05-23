@@ -47,6 +47,28 @@
         }
     }
 
+     function change_pass2($kode_customer, $old, $pass) {
+        $this->load->helper('security');
+        $q = $this->db->get_where('mst_customer', array('kode_customer' => $kode_customer));
+        if($q->num_rows() >0 ) {
+            $hq = $q->row();
+            $salt = $hq->salt;
+            $oldpassword = do_hash(do_hash($old.$salt,'md5'), 'md5');
+            if($oldpassword == $hq->password) {
+                // change pass
+                $newpass = do_hash(do_hash($pass.$salt,'md5'), 'md5');
+                $data = array('password' => $newpass);
+               // $this->db->where('kode_customer', $kode_customer);
+               // $this->db->update('mst_customer', $data);
+                return json_encode(array('result' => $newpass, 'message' => 'success'));
+            } else {
+                return json_encode(array('result' => 'false', 'message' => 'old_invalid'));
+            }
+        } else {
+            return json_encode(array('result' => 'false', 'message' => 'not_found'));
+        }
+    }
+
     function get_data($where = null) {
         $this->db->order_by('nama_customer', 'asc');
         if($where == null) {
